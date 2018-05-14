@@ -1,4 +1,4 @@
-var http = require('http')
+ var http = require('http')
 var fs = require('fs')
 var url = require('url')
 var port = process.argv[2]
@@ -34,9 +34,13 @@ var server = http.createServer(function(request, response){
   console.log('方方说：得到 HTTP 路径\n' + path)
   console.log('方方说：查询字符串为\n' + query)
   console.log('方方说：不含查询字符串的路径为\n' + pathNoQuery)
-
-response.write('Hi\n')
- response.end()
+if(path == '/'){
+  response.write('Hi\n')
+  response.end()
+}else{
+  response.statusCode = 404
+  response.end()
+}
 
 
 
