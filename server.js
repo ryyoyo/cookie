@@ -34,7 +34,7 @@ var server = http.createServer(function(request, response){
   console.log('得到 HTTP 路径\n' + path)
   console.log('查询字符串为\n' + query)
   console.log('不含查询字符串的路径为\n' + pathNoQuery)
-if(path == '/index'){
+if(path == '/'){
   response.setHeader('Content-Type','text/html; charset=utf-8')
   response.write('<DOCTYPE>\n<html>' +
     '<head><link rel = "stylesheet" href = "/style"></head><body>' +
