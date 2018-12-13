@@ -1,4 +1,4 @@
- var http = require('http')
+var http = require('http')
 var fs = require('fs')
 var url = require('url')
 var port = process.argv[2]
@@ -10,57 +10,72 @@ if(!port){
 
 var server = http.createServer(function(request, response){
   var parsedUrl = url.parse(request.url, true)
-  var path = request.url 
-  var query = ''
-  if(path.indexOf('?') >= 0){ query = path.substring(path.indexOf('?')) }
-  var pathNoQuery = parsedUrl.pathname
-  var queryObject = parsedUrl.query
+  var pathWithQuery = request.url
+  var queryString = ''
+  if(pathWithQuery.indexOf('?') >= 0){ queryString = pathWithQuery.substring(pathWithQuery.indexOf('?')) }
+  var path = parsedUrl.pathname
+  var query = parsedUrl.query
   var method = request.method
 
   /******** 从这里开始看，上面不要看 ************/
 
-
-
-
-
-
-
-
-
-
-
-
-
   console.log('得到 HTTP 路径\n' + path)
-  console.log('查询字符串为\n' + query)
-  console.log('不含查询字符串的路径为\n' + pathNoQuery)
-if(path == '/'){
+
+if(path === '/'){
+  var string = fs.readFileSync('./index.html','utf8')
+  response.statusCode = 200
   response.setHeader('Content-Type','text/html; charset=utf-8')
-  response.write('<DOCTYPE>\n<html>' +
-    '<head><link rel = "stylesheet" href = "/style"></head><body>' +
-    '<h1>Hello World!你好！</h1>' +
-    '<script src = "/script"></script></body>' +
-    '</html>')
+  response.write(string)
   response.end()
-}else if(path == '/style'){
-  response.setHeader('Content-Type','text/css; charset=utf-8')
-  response.write('body{background: #ddd;} h1{color: red;}')
+}else if(path === '/sign_up'){
+  var string = fs.readFileSync('sign_up.html','utf8')
+  response.statusCode = 200
+  response.setHeader('Content-Type','text/html; charset=utf-8')
+  response.write(string)
   response.end()
-}else if(path == '/script'){
+}else if(path === '/main.js'){
+  var string = fs.readFileSync('./main.js','utf8')
+  response.statusCode = 200
   response.setHeader('Content-Type','text/javascript; charset=utf-8')
-  response.write('alert("这是js执行的")')
+  response.write(string)
+  response.end()
+}else if(path === '/jQuery-ajax.js'){
+  var string = fs.readFileSync('./jQuery-ajax.js','utf8')
+  response.statusCode = 200
+  response.setHeader('Content-Type','text/javascript; charset=utf-8')
+  response.write(string)
+  response.end()
+}else if(path === '/promise.js'){
+  var string = fs.readFileSync('./promise.js','utf8')
+  response.statusCode = 200
+  response.setHeader('Content-Type','text/javascript; charset=utf-8')
+  response.write(string)
+  response.end()
+}else if(path === '/xxx'){
+  response.statusCode = 200
+  response.setHeader('Content-Type','text/json; charset=utf-8')
+  response.setHeader('Access-Control-Allow-Origin','http://ry.com:8001')
+  response.write(`
+    {
+      "note":{
+        "to": "tove",
+        "from": "Jani",
+        "content": "Reminder",
+        "body": "Don't forget me this weekend!"
+      }
+    }
+  `)
   response.end()
 }else{
   response.statusCode = 404
+  response.setHeader('Content-Type', 'text/html;charset=utf-8')
+  response.write(`
+    {
+      "error": "not found"
+    }
+  `)
   response.end()
 }
-
-
-
-
-
-
-
 
   /******** 代码结束，下面不要看 ************/
 })
