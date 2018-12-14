@@ -91,6 +91,8 @@
 				}, (request) => {
 					// console.log(request.statusText, request.status)
 					let {errors} = request.responseJSON
+					console.log({errors})
+					console.log(errors)
 					if(errors.email && errors.email === 'invalid'){
 						$form.find('[name=email]').siblings('.error').text('邮箱格式有误').css({"color":"red"})
 					}
